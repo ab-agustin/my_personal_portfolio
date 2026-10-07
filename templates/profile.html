@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - Personal Portfolio{% endblock %}
+
+{% block content %}
+<style>
+    /* Dark Theme Background Wrapper */
+    .hero-container {
+        background-color: #121212;
+        color: #ffffff;
+        padding: 50px 40px;
+        border-radius: 16px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Split Main Hero Section into Two Columns */
+    .hero-main {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+    }
+
+    /* Left Side Content */
+    .hero-text {
+        flex: 1;
+    }
+
+    .greeting {
+        font-size: 1.2rem;
+        color: #a0a0a0;
+        margin-bottom: 5px;
+    }
+
+    .user-name {
+        font-size: 2rem;
+        font-weight: 600;
+        margin: 0 0 10px 0;
+        color: #f0f0f0;
+    }
+
+    .user-title {
+        font-size: 3.2rem;
+        font-weight: 800;
+        color: #ff6b00; /* Primary Accent Color */
+        margin: 0 0 20px 0;
+    }
+
+    /* Social Icon Links Row */
+    .social-icons {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 30px;
+    }
+
+    .icon-circle {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background-color: #262626;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 0.9rem;
+        border: 1px solid #333;
+    }
+
+    /* Action Buttons Row */
+    .btn-group {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 40px;
+    }
+
+    .btn-primary {
+        background-color: #ff6b00;
+        color: white;
+        padding: 12px 28px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* Stats Box Row at Bottom */
+    .stats-card {
+        background-color: #1e1e1e;
+        border-radius: 12px;
+        padding: 20px 30px;
+        display: inline-flex;
+        gap: 40px;
+        border: 1px solid #2a2a2a;
+    }
+
+    .stat-item h3 {
+        margin: 0;
+        color: #ff6b00;
+        font-size: 1.5rem;
+    }
+
+    .stat-item p {
+        margin: 4px 0 0 0;
+        color: #a0a0a0;
+        font-size: 0.85rem;
+    }
+
+    /* Right Side Profile Image Frame */
+    .hero-image-wrapper {
+        flex: 0 0 350px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .image-circle {
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background-color: #1f1f1f;
+        border: 2px solid #2a2a2a;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .image-circle img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
+
+<div class="hero-container">
+    <div class="hero-main">
+        <div class="hero-text">
+            <div class="greeting">Hi I am</div>
+            <h2 class="user-name">Atasha Bernadette S. Agustin</h2>
+            <h1 class="user-title">Computer Engineering Student</h1>
+
+            <!-- Social Media Icon Links -->
+            <div class="social-icons">
+                <a href="#" class="icon-circle">in</a>
+                <a href="#" class="icon-circle">gh</a>
+                <a href="#" class="icon-circle">fb</a>
+                <a href="#" class="icon-circle">ig</a>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="btn-group">
+                <a href="{{ url_for('contact') }}" class="btn-primary">Learn More</a>
+            </div>
+
+            <!-- Bottom Stats Box -->
+            <div class="stats-card">
+                <div class="stat-item">
+                    <h3>2nd</h3>
+                    <p>Year Student</p>
+                </div>
+                <div class="stat-item">
+                    <h3>10+</h3>
+                    <p>Projects Done</p>
+                </div>
+                <div class="stat-item">
+                    <h3>5+</h3>
+                    <p>Technologies</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Profile Photo -->
+        <div class="hero-image-wrapper">
+            <div class="image-circle">
+                <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Profile Photo" onerror="this.src='https://via.placeholder.com/320x320?text=Your+Photo';">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

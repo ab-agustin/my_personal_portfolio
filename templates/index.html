@@ -1,0 +1,119 @@
+<{% extends "base.html" %}
+
+{% block title %}Home - My Portfolio{% endblock %}
+
+{% block content %}
+<style>
+    /* Two Column Layout Arrangement */
+    .two-column-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+    
+    .card {
+        background: #ffffff;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        border: 1px solid #eef2f5;
+    }
+
+    .card h2 {
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    /* Form Controls Alignment */
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    .btn-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 6px;
+        background-color: #2563eb;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    /* Visual List Display Structure */
+    .data-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .data-node {
+        background-color: #3b82f6;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: bold;
+        width: 150px;
+        text-align: center;
+    }
+
+    .arrow {
+        font-size: 1.2rem;
+        color: #888;
+    }
+</style>
+
+<div class="two-column-layout">
+    <!-- Left Column Box: Operations / Inputs -->
+    <div class="card">
+        <h2>Interactive Operations</h2>
+        <form method="POST">
+            <div class="form-group">
+                <label for="value">Value</label>
+                <input type="text" id="value" name="data" placeholder="Enter a value">
+            </div>
+            
+            <div class="btn-stack">
+                <button class="btn" type="submit" name="action" value="add_front">Add at the Beginning</button>
+                <button class="btn" type="submit" name="action" value="add">Add</button>
+                <button class="btn" type="submit" name="action" value="delete_front">Delete at the Beginning</button>
+                <button class="btn" type="submit" name="action" value="delete">Delete</button>
+                <button class="btn" type="submit" name="action" value="search">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Right Column Box: Data Output / Visual Structure -->
+    <div class="card">
+        <h2>Current Data Stack</h2>
+        <div class="data-list">
+            <div class="data-node">Python</div>
+            <div class="arrow">↓</div>
+            <div class="data-node">Flask</div>
+            <div class="arrow">↓</div>
+            <div class="data-node">HTML</div>
+            <div class="arrow">↓</div>
+            <div class="data-node">CSS</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
