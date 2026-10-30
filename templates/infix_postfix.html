@@ -1,0 +1,69 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="activity-page infix-page">
+
+    <div class="infix-heading">
+        <span class="infix-label">DATA STRUCTURES & ALGORITHMS</span>
+        <h1>Infix to Postfix</h1>
+        <p>
+            Transform mathematical expressions into postfix notation
+            using a stack.
+        </p>
+    </div>
+
+    <div class="infix-card">
+        <h2>Enter Your Expression</h2>
+        <p class="infix-description">
+            Separate each number, letter, and operator with a space.
+        </p>
+
+        <form action="{{ url_for('infix_postfix') }}" method="POST">
+            <label for="expression">Infix Expression</label>
+
+            <input
+                type="text"
+                id="expression"
+                name="expression"
+                placeholder="Example: A + B * C"
+                autocomplete="off"
+                required
+            >
+
+            <button type="submit" class="infix-convert-button">
+                Convert to Postfix →
+            </button>
+        </form>
+
+        {% if result is not none %}
+        <div class="infix-result">
+            <span>POSTFIX RESULT</span>
+            <h3>{{ result }}</h3>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="infix-error">
+            {{ error }}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="infix-example">
+        <h2>How It Works</h2>
+        <p><strong>Infix:</strong> A + B * C</p>
+        <p><strong>Postfix:</strong> A B C * +</p>
+        <p>
+            Multiplication is performed before addition, so the
+            multiplication operator comes before the addition operator
+            in the postfix expression.
+        </p>
+    </div>
+
+    <a href="{{ url_for('works') }}" class="back-home-button">
+        ← Back to Works
+    </a>
+
+</div>
+{% endblock %}

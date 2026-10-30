@@ -1,0 +1,82 @@
+
+{% extends "base.html" %}
+
+{% block title %}Linked List | My Portfolio{% endblock %}
+
+{% block content %}
+<div class="linked-list-page">
+
+    <section class="linked-list-panel">
+        <h1>Linked List Operations</h1>
+
+        <form method="POST" class="linked-list-form">
+            <label for="value">Value</label>
+            <input
+                type="text"
+                id="value"
+                name="value"
+                placeholder="Enter a value"
+            >
+
+            <button type="submit" name="action" value="add_beginning">
+                Add at the Beginning
+            </button>
+
+            <button type="submit" name="action" value="add">
+                Add
+            </button>
+
+            <button type="submit" name="action" value="delete_beginning">
+                Delete at the Beginning
+            </button>
+
+            <button type="submit" name="action" value="delete">
+                Delete
+            </button>
+
+            <button type="submit" name="action" value="search">
+                Search
+            </button>
+        </form>
+
+        {% if message %}
+            <p class="linked-list-message">{{ message }}</p>
+        {% endif %}
+    </section>
+
+    <section class="linked-list-panel">
+        <h2>Linked List Data</h2>
+
+        <div class="linked-list-visual">
+            <span class="list-head">HEAD</span>
+
+            {% if nodes %}
+                <span class="list-arrow">→</span>
+
+                {% for node in nodes %}
+                    <div class="list-node">
+                        <span>{{ node }}</span>
+                    </div>
+                    <span class="list-arrow">→</span>
+                {% endfor %}
+
+                <span class="list-null">NULL</span>
+            {% else %}
+                <span class="list-null">NULL (Empty List)</span>
+            {% endif %}
+        </div>
+
+        <p class="linked-list-count">
+            Total nodes: {{ nodes|length }}
+        </p>
+
+        <div class="back-home-container">
+                <a href="{{ url_for('index') }}" class="back-home-button">
+                ← Back to Home
+            </a>
+</div>
+
+    </section>
+
+</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Sorting Menu{% endblock %}
+
+{% block content %}
+<div class="works-page">
+
+    <div class="works-tablet">
+
+        <div class="works-screen">
+
+            <!-- Tablet Status Bar -->
+            <div class="tablet-status">
+                <span>SORTING LAB</span>
+
+                <div class="status-icons">
+                    <span class="wifi-icon">⌁</span>
+                    <div class="battery">
+                        <div class="battery-level"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tablet Screen Content -->
+            <div class="works-screen-content">
+
+                <div class="works-header">
+                    <span class="works-label">CHOOSE YOUR CHALLENGE!</span>
+                    <h1>SORTING LAB</h1>
+                    <p>Select an algorithm to explore.</p>
+                </div>
+
+                <div class="sorting-menu-apps">
+
+                    <a href="{{ url_for('bubble_sort') }}"
+                       class="work-app sorting-menu-card">
+                        <div class="sorting-menu-icon">↕</div>
+                        <h3>Bubble Sort</h3>
+                        <p>Compare adjacent values.</p>
+                    </a>
+
+                    <a href="{{ url_for('selection_sort') }}"
+                       class="work-app sorting-menu-card">
+                        <div class="sorting-menu-icon">⇅</div>
+                        <h3>Selection Sort</h3>
+                        <p>Find the smallest value.</p>
+                    </a>
+
+                    <a href="{{ url_for('insertion_sort') }}"
+                       class="work-app sorting-menu-card">
+                        <div class="sorting-menu-icon">↳</div>
+                        <h3>Insertion Sort</h3>
+                        <p>Insert values in order.</p>
+                    </a>
+
+                    <a href="{{ url_for('quick_sort') }}"
+                       class="work-app sorting-menu-card">
+                        <div class="sorting-menu-icon">⚡</div>
+                        <h3>Quick Sort</h3>
+                        <p>Sort values around a pivot.</p>
+                    </a>
+                    
+                    <a href="{{ url_for('merge_sort') }}"
+                       class="work-app sorting-menu-card">
+                        <div class="sorting-menu-icon">⇆</div>
+                        <h3>Merge Sort</h3>
+                        <p>Divide and conquer.</p>
+                    </a>
+                </div>
+
+                <div class="works-footer">
+                    <a href="{{ url_for('works') }}">← BACK TO MY WORKS</a>
+                    <span class="footer-stars">✦ ✧ ✦</span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Physical Tablet Home Button -->
+        <a href="{{ url_for('index') }}"
+           class="tablet-home-button"
+           title="Back to Home"
+           aria-label="Back to Home">
+            <span></span>
+        </a>
+
+    </div>
+</div>
+{% endblock %}

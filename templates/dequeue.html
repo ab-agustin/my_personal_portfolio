@@ -1,0 +1,58 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="queue-page">
+    <div class="queue-container">
+
+        <h1>De-Queue</h1>
+        <p class="queue-subtitle">Remove an item from the front</p>
+
+        {% if message %}
+            <p class="queue-message">{{ message }}</p>
+        {% endif %}
+
+        <form method="POST" class="queue-form">
+            <label for="value">Enter a value:</label>
+            <input
+                type="text"
+                id="value"
+                name="value"
+                placeholder="Enter an item"
+            >
+
+            <div class="queue-buttons">
+                <button type="submit" name="action" value="enqueue">
+                    Add Item
+                </button>
+
+                <button type="submit" name="action" value="dequeue">
+                    De-Queue
+                </button>
+            </div>
+        </form>
+
+        <h2>Queue Elements</h2>
+
+        {% if elements %}
+            <p class="queue-direction">FRONT → REAR</p>
+
+            <div class="queue-elements">
+                {% for item in elements %}
+                    <span class="queue-item">{{ item }}</span>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="queue-empty">The queue is empty.</p>
+        {% endif %}
+
+        <div class="queue-navigation">
+            <a href="{{ url_for('works') }}"
+               class="queue-back-button">
+                ← Back to Works
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

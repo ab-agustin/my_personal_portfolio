@@ -1,0 +1,33 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="activity-page">
+    <h1>Convert String to Uppercase</h1>
+    <p>Enter a string below to convert all its letters to uppercase.</p>
+
+    <form action="{{ url_for('uppercase') }}" method="post">
+        <label for="inputString">Enter a string:</label>
+        <input
+            type="text"
+            id="inputString"
+            name="inputString"
+            placeholder="Type something here..."
+            required
+        >
+        <button type="submit">Convert</button>
+    </form>
+
+    {% if result is not none %}
+        <div class="result-box">
+            <p>Converted string:</p>
+            <strong>{{ result }}</strong>
+        </div>
+    {% endif %}
+
+    <a href="{{ url_for('works') }}" class="back-home-button">
+        ← Back to Works
+    </a>
+</div>
+{% endblock %}
+

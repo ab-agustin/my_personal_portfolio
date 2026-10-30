@@ -1,0 +1,48 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="activity-page">
+    <h1>Stack Operations</h1>
+    <p>A linked-list stack follows Last In, First Out (LIFO).</p>
+
+    <form action="{{ url_for('stacks') }}" method="post">
+        <label for="value">Value to push:</label>
+        <input
+            type="text"
+            id="value"
+            name="value"
+            placeholder="Enter a value"
+        >
+        <button type="submit" name="action" value="push">Push</button>
+    </form>
+
+    <div class="stack-actions">
+        <form action="{{ url_for('stacks') }}" method="post">
+            <button type="submit" name="action" value="pop">Pop</button>
+        </form>
+
+        <form action="{{ url_for('stacks') }}" method="post">
+            <button type="submit" name="action" value="peek">Peek</button>
+        </form>
+    </div>
+
+    {% if message %}
+        <p class="result-box">{{ message }}</p>
+    {% endif %}
+
+    <h2>Stack (Top to Bottom)</h2>
+
+    {% if elements %}
+        {% for element in elements %}
+            <div class="stack-element">{{ element }}</div>
+        {% endfor %}
+    {% else %}
+        <p>Stack is empty.</p>
+    {% endif %}
+
+    <a href="{{ url_for('works') }}" class="back-home-button">
+        ← Back to Works
+    </a>
+</div>
+{% endblock %}

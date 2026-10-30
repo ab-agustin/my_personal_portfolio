@@ -1,0 +1,73 @@
+
+{% extends "base.html" %}
+
+{% block title %}Home | My Toy Story Portfolio{% endblock %}
+
+{% block content %}
+<section class="toy-story-landing">
+
+    <!-- Keep the original Toy Story background -->
+    <img
+        class="toy-story-background"
+        src="{{ url_for('static', filename='images/toybox-reference.jpg') }}"
+        alt="Toy Story themed background"
+    >
+
+    <!-- Content inside the tablet -->
+    <div class="tablet-screen-content">
+
+        <!-- Main row: photo on the left, greeting on the right -->
+        <div class="scrapbook-main">
+
+            <div class="my-photo-frame">
+                <img
+                    src="{{ url_for('static', filename='images/profile.jpg') }}"
+                    alt="My profile picture"
+                >
+                <p class="photo-caption">A little piece of me ✨</p>
+            </div>
+
+            <div class="tablet-welcome">
+                <p class="welcome-text">TO INFINITY AND BEYOND!</p>
+
+                <h1 class="my-tablet-name">
+                    Hi, I'm <span>Atasha!</span>
+                </h1>
+
+                <p class="intro-text">
+                    Welcome to my little corner of the universe!
+                    I'm a Computer Engineering student who loves
+                    learning, creating, and exploring new things.
+                </p>
+
+                <p class="intro-extra">
+                    Come on in and explore my world!
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Buttons below the photo and greeting -->
+        <div class="tablet-buttons">
+
+            <a href="{{ url_for('profile') }}"
+               class="tablet-button profile-button">
+                ⭐ Profile
+            
+            </a>
+
+            <a href="{{ url_for('contact') }}"
+               class="tablet-button contacts-button">
+                💌 Contacts
+            </a>
+
+            <a href="{{ url_for('works') }}"
+               class="tablet-button works-button">
+                🚀 Works
+            </a>
+
+        </div>
+
+    </div>
+</section>
+{% endblock %}

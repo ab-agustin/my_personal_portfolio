@@ -1,0 +1,410 @@
+
+{% extends "base.html" %}
+
+{% block title %}Selection Sort | Sorting Lab{% endblock %}
+
+{% block content %}
+<div class="sorting-page">
+
+    <header class="sorting-page-header">
+        <h1>Selection Sort</h1>
+        <p>Watch how Selection Sort finds the smallest number and moves it into its correct position.</p>
+    </header>
+
+    <section class="sorting-workspace">
+
+        <div class="sorting-controls">
+            <div class="sorting-button-group">
+                <label for="array-size">Array size:</label>
+                <input type="number" id="array-size" min="2" max="20" value="6">
+                <button type="button" id="random-btn">Random</button>
+                <button type="button" id="sorted-btn">Sorted</button>
+                <button type="button" id="nearly-btn">Nearly Sorted</button>
+                <button type="button" id="duplicates-btn">Many Duplicates</button>
+            </div>
+
+            <div class="custom-array-row">
+                <label for="custom-array">Custom array:</label>
+                <input
+                    type="text"
+                    id="custom-array"
+                    placeholder="e.g. 8, 3, 5, 1, 9, 2"
+                >
+                <button type="button" id="custom-btn">Go</button>
+            </div>
+
+            <p id="input-message" class="sorting-message" aria-live="polite"></p>
+        </div>
+
+        <div class="sorting-info">
+            <span id="step-counter">Step 0</span>
+            <span id="array-status">Ready to sort</span>
+        </div>
+
+        <div id="sorting-bars" class="sorting-bars"
+             aria-label="Selection sort number visualization"></div>
+
+        <p id="sorting-message" class="sorting-message" aria-live="polite">
+            Press Play or Next to begin sorting.
+        </p>
+
+        <div class="sorting-playback">
+            <button type="button" id="previous-btn">◀ Previous</button>
+            <button type="button" id="play-btn">▶ Play</button>
+            <button type="button" id="next-btn">Next ▶</button>
+            <button type="button" id="reset-btn">↻ Reset</button>
+        </div>
+
+        <div class="sorting-speed">
+            <label for="speed-select">Speed:</label>
+            <select id="speed-select">
+                <option value="1000">Slow</option>
+                <option value="500" selected>Moderate</option>
+                <option value="150">Fast</option>
+            </select>
+        </div>
+
+        <div class="sorting-legend">
+            <span><i class="legend-box compare"></i> Comparing</span>
+            <span><i class="legend-box sorted"></i> Sorted</span>
+            <span><i class="legend-box normal"></i> Unsorted</span>
+        </div>
+
+    </section>
+
+    <div class="sorting-footer">
+        <a href="{{ url_for('sorting_menu') }}" class="sorting-back">
+            ← Back to Sorting Lab
+        </a>
+    </div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const barsContainer = document.getElementById("sorting-bars");
+    const stepCounter = document.getElementById("step-counter");
+    const arrayStatus = document.getElementById("array-status");
+    const message = document.getElementById("sorting-message");
+    const inputMessage = document.getElementById("input-message");
+
+    const arraySize = document.getElementById("array-size");
+    const customArray = document.getElementById("custom-array");
+
+    const randomButton = document.getElementById("random-btn");
+    const sortedButton = document.getElementById("sorted-btn");
+    const nearlyButton = document.getElementById("nearly-btn");
+    const duplicatesButton = document.getElementById("duplicates-btn");
+    const customButton = document.getElementById("custom-btn");
+
+    const previousButton = document.getElementById("previous-btn");
+    const playButton = document.getElementById("play-btn");
+    const nextButton = document.getElementById("next-btn");
+    const resetButton = document.getElementById("reset-btn");
+    const speedSelect = document.getElementById("speed-select");
+
+    let startingArray = [];
+    let history = [];
+    let currentStep = 0;
+    let timer = null;
+    let isPlaying = false;
+
+    function stopPlaying() {
+        if (timer !== null) {
+            clearTimeout(timer);
+            timer = null;
+        }
+
+        isPlaying = false;
+        playButton.textContent = "▶ Play";
+    }
+
+    function getSize() {
+        let size = Number.parseInt(arraySize.value, 10);
+
+        if (!Number.isInteger(size)) size = 6;
+
+        size = Math.max(2, Math.min(20, size));
+        arraySize.value = size;
+
+        return size;
+    }
+
+    function buildHistory() {
+        const values = [...startingArray];
+        const steps = [{
+            values: [...values],
+            comparing: [],
+            minimum: -1,
+            sortedCount: 0,
+            message: "Starting array. We will find the smallest number in each pass."
+        }];
+
+        for (let i = 0; i < values.length - 1; i++) {
+            let minIndex = i;
+
+            steps.push({
+                values: [...values],
+                comparing: [i],
+                minimum: minIndex,
+                sortedCount: i,
+                message: `Pass ${i + 1}: Find the smallest number from position ${i + 1} to the end.`
+            });
+
+            for (let j = i + 1; j < values.length; j++) {
+                steps.push({
+                    values: [...values],
+                    comparing: [minIndex, j],
+                    minimum: minIndex,
+                    sortedCount: i,
+                    message: `Compare ${values[minIndex]} and ${values[j]}.`
+                });
+
+                if (values[j] < values[minIndex]) {
+                    minIndex = j;
+
+                    steps.push({
+                        values: [...values],
+                        comparing: [i, minIndex],
+                        minimum: minIndex,
+                        sortedCount: i,
+                        message: `${values[minIndex]} is the new smallest number in the unsorted section.`
+                    });
+                }
+            }
+
+            if (minIndex !== i) {
+                const oldValue = values[i];
+
+                [values[i], values[minIndex]] =
+                    [values[minIndex], values[i]];
+
+                steps.push({
+                    values: [...values],
+                    comparing: [i, minIndex],
+                    minimum: -1,
+                    sortedCount: i + 1,
+                    message: `Swap ${oldValue} with ${values[i]}. The smallest number is now in position ${i + 1}.`
+                });
+            } else {
+                steps.push({
+                    values: [...values],
+                    comparing: [i],
+                    minimum: -1,
+                    sortedCount: i + 1,
+                    message: `${values[i]} is already the smallest. No swap is needed.`
+                });
+            }
+        }
+
+        steps.push({
+            values: [...values],
+            comparing: [],
+            minimum: -1,
+            sortedCount: values.length,
+            message: "Sorting complete! All numbers are in ascending order."
+        });
+
+        return steps;
+    }
+
+    function renderStep() {
+        const step = history[currentStep];
+        barsContainer.innerHTML = "";
+
+        const minValue = Math.min(...step.values, 0);
+        const maxValue = Math.max(...step.values, 1);
+        const range = Math.max(1, maxValue - minValue);
+
+        step.values.forEach((value, index) => {
+            const bar = document.createElement("div");
+            bar.classList.add("sorting-bar");
+
+            const height = 15 + ((value - minValue) / range) * 85;
+            bar.style.height = `${height}%`;
+
+            if (step.comparing.includes(index)) {
+                bar.classList.add("bar-comparing");
+            } else if (index < step.sortedCount ||
+                       currentStep === history.length - 1) {
+                bar.classList.add("bar-sorted");
+            } else {
+                bar.classList.add("bar-normal");
+            }
+
+            const label = document.createElement("span");
+            label.className = "bar-value";
+            label.textContent = value;
+
+            bar.appendChild(label);
+            barsContainer.appendChild(bar);
+        });
+
+        stepCounter.textContent =
+            `Step ${currentStep} / ${history.length - 1}`;
+
+        const finished = currentStep === history.length - 1;
+
+        arrayStatus.textContent = finished ? "Completed!" :
+            (currentStep === 0 ? "Ready to sort" : "In progress");
+
+        message.textContent = step.message;
+
+        previousButton.disabled = currentStep === 0;
+        nextButton.disabled = finished;
+    }
+
+    function loadArray(values) {
+        stopPlaying();
+
+        startingArray = [...values];
+        currentStep = 0;
+        history = buildHistory();
+
+        inputMessage.textContent = "";
+        renderStep();
+    }
+
+    function makeRandomArray(size) {
+        return Array.from(
+            { length: size },
+            () => Math.floor(Math.random() * 90) + 1
+        );
+    }
+
+    randomButton.addEventListener("click", function () {
+        loadArray(makeRandomArray(getSize()));
+    });
+
+    sortedButton.addEventListener("click", function () {
+        const size = getSize();
+        loadArray(Array.from({ length: size }, (_, i) => (i + 1) * 5));
+    });
+
+    nearlyButton.addEventListener("click", function () {
+        const size = getSize();
+        const values = Array.from({ length: size }, (_, i) => (i + 1) * 5);
+
+        for (let i = 0; i < Math.min(2, size - 1); i++) {
+            const position = Math.floor(Math.random() * (size - 1));
+
+            [values[position], values[position + 1]] =
+                [values[position + 1], values[position]];
+        }
+
+        loadArray(values);
+    });
+
+    duplicatesButton.addEventListener("click", function () {
+        const size = getSize();
+        const choices = [5, 10, 10, 15, 15, 20];
+
+        loadArray(
+            Array.from({ length: size }, () =>
+                choices[Math.floor(Math.random() * choices.length)]
+            )
+        );
+    });
+
+    customButton.addEventListener("click", function () {
+        const text = customArray.value.trim();
+
+        if (!text) {
+            inputMessage.textContent =
+                "Please enter numbers separated by commas.";
+            return;
+        }
+
+        const parts = text.split(",").map(item => item.trim());
+
+        if (
+            parts.length < 2 ||
+            parts.length > 20 ||
+            parts.some(item => item === "" || !/^-?\d+$/.test(item))
+        ) {
+            inputMessage.textContent =
+                "Enter 2–20 whole numbers separated by commas.";
+            return;
+        }
+
+        const values = parts.map(Number);
+
+        if (values.some(value => !Number.isSafeInteger(value))) {
+            inputMessage.textContent = "Please enter valid whole numbers.";
+            return;
+        }
+
+        arraySize.value = values.length;
+        loadArray(values);
+    });
+
+    previousButton.addEventListener("click", function () {
+        stopPlaying();
+
+        if (currentStep > 0) {
+            currentStep--;
+            renderStep();
+        }
+    });
+
+    nextButton.addEventListener("click", function () {
+        stopPlaying();
+
+        if (currentStep < history.length - 1) {
+            currentStep++;
+            renderStep();
+        }
+    });
+
+    function advanceStep() {
+        if (!isPlaying) return;
+
+        if (currentStep < history.length - 1) {
+            currentStep++;
+            renderStep();
+        }
+
+        if (currentStep >= history.length - 1) {
+            stopPlaying();
+            return;
+        }
+
+        timer = setTimeout(advanceStep, Number(speedSelect.value));
+    }
+
+    playButton.addEventListener("click", function () {
+        if (isPlaying) {
+            stopPlaying();
+            return;
+        }
+
+        if (currentStep >= history.length - 1) {
+            currentStep = 0;
+            renderStep();
+        }
+
+        isPlaying = true;
+        playButton.textContent = "❚❚ Pause";
+        timer = setTimeout(advanceStep, Number(speedSelect.value));
+    });
+
+    speedSelect.addEventListener("change", function () {
+        if (isPlaying) {
+            stopPlaying();
+            isPlaying = true;
+            playButton.textContent = "❚❚ Pause";
+            timer = setTimeout(advanceStep, Number(speedSelect.value));
+        }
+    });
+
+    resetButton.addEventListener("click", function () {
+        stopPlaying();
+        currentStep = 0;
+        renderStep();
+    });
+
+    loadArray(makeRandomArray(getSize()));
+});
+</script>
+{% endblock %}
+

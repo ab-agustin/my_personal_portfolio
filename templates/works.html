@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}My Works{% endblock %}
+
+{% block content %}
+<div class="works-page">
+
+    <div class="works-tablet">
+
+        <div class="works-screen">
+
+            <!-- Tablet status bar -->
+            <div class="tablet-status">
+                <span>MY PORTFOLIO</span>
+
+                <div class="status-icons">
+                    <span class="wifi-icon">⌁</span>
+                    <div class="battery">
+                        <div class="battery-level"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main screen -->
+            <div class="works-screen-content">
+
+                <div class="works-header">
+                    <span class="works-label">WELCOME, SPACE RANGER!</span>
+                    <h1>MY WORKS</h1>
+                    <p>Select an app to explore my programming activities.</p>
+                </div>
+
+                <!-- App cards -->
+                <div class="works-apps">
+
+                    <a href="{{ url_for('acircle') }}" class="work-app">
+                        <div class="app-picture">
+                            <img
+                                src="{{ url_for('static', filename='images/circle_area.jpg') }}"
+                                alt="Area of Circle"
+                                class="work-image"
+                            >
+                        </div>
+                        <h3>Area of Circle</h3>
+                    </a>
+
+                    <a href="{{ url_for('atriangle') }}" class="work-app">
+                        <div class="app-picture">
+                            <img
+                                src="{{ url_for('static', filename='images/triangle.png') }}"
+                                alt="Area of Triangle"
+                                class="work-image"
+                            >
+                        </div>
+                        <h3>Area of Triangle</h3>
+                    </a>
+
+                    <a href="{{ url_for('uppercase') }}" class="work-app">
+                        <div class="app-picture">
+                            <img
+                                src="{{ url_for('static', filename='images/lowercase_uppercase.png') }}"
+                                alt="Uppercase"
+                                class="work-image"
+                            >
+                        </div>
+                        <h3>Uppercase</h3>
+                    </a>
+
+                    <a href="{{ url_for('stacks') }}" class="work-app">
+                        <div class="app-picture">
+                            <img
+                                src="{{ url_for('static', filename='images/stacks.png') }}"
+                                alt="Stacks"
+                                class="work-image"
+                            >
+                        </div>
+                        <h3>Stacks</h3>
+                    </a>
+
+                    <a href="{{ url_for('infix_postfix') }}" class="work-app">
+                        <div class="app-picture">
+                            <img
+                                src="{{ url_for('static', filename='images/infix_to_postfix.png') }}"
+                                alt="Infix to Postfix"
+                                class="work-image"
+                            >
+                        </div>
+                        <h3>Infix to Postfix</h3>
+                    </a>
+
+                    <a href="{{ url_for('linked_list_page') }}" class="work-app">
+                        <div class="app-picture">
+                            <img
+                                src="{{ url_for('static', filename='images/linked_list.png') }}"
+                                alt="Linked List"
+                                class="work-image"
+                            >
+                        </div>
+                        <h3>Linked List</h3>
+                    </a>
+                    
+                    <a href="{{ url_for('queue_page') }}" class="work-app">
+                        <div class="app-picture">
+                            <img
+                                src="{{ url_for('static', filename='images/queue.jpg') }}"
+                                alt="Queue"
+                                class="work-image"
+                            >
+                        </div>
+                        <h3>Queue</h3>
+                    </a>
+
+                    <a href="{{ url_for('dequeue_page') }}" class="work-app">
+                        <div class="app-picture">
+                            <img
+                                src="{{ url_for('static', filename='images/de-queue.jpg') }}"
+                                alt="De-Queue"
+                                class="work-image"
+                            >
+                        </div>
+                        <h3>De-Queue</h3>
+                    </a>
+
+                     <a href="{{ url_for('sorting_menu') }}" class="work-app">
+                        <div class="app-picture">
+                            <img
+                                src="{{ url_for('static', filename='images/sorting.jpg') }}"
+                                alt="Sorting"
+                                class="work-image"
+                            >
+                        </div>
+                        <h3>Sorting</h3>
+                    </a>
+
+                </div>
+
+                <div class="works-footer">
+                    <span>YOUR NEXT ADVENTURE STARTS HERE</span>
+                    <span class="footer-stars">✦ ✧ ✦</span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- iPad-style home button -->
+        <a href="{{ url_for('index') }}"
+           class="tablet-home-button"
+           title="Back to Home"
+           aria-label="Back to Home">
+            <span></span>
+        </a>
+
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,415 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<style>
+.profile-collectible {
+    max-width: 1000px;
+    margin: 35px auto;
+    padding: 24px;
+    color: #183653;
+    background: #f1f8fc;
+    border-radius: 24px;
+    border: 3px solid white;
+    box-shadow: 0 8px 0 #c5dbe8;
+}
+
+.collect-hero {
+    padding: 22px;
+    background: #c8e9ff;
+    border: 3px solid #183653;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.collect-topline,
+.collect-bottomline {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+}
+
+.collect-topline {
+    padding-bottom: 14px;
+    border-bottom: 2px dashed #86b5d0;
+}
+
+.collect-main {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 28px;
+    align-items: center;
+    padding: 25px 0;
+}
+
+.collect-photo {
+    padding: 10px;
+    background: white;
+    border: 2px solid #183653;
+    border-radius: 12px;
+    box-shadow: 6px 6px 0 #183653;
+}
+
+.collect-photo img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.collect-photo-label {
+    display: block;
+    padding: 10px 2px 2px;
+    text-align: center;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.collect-badge {
+    display: inline-block;
+    background: #ffdf7e;
+    border: 2px solid #183653;
+    border-radius: 5px;
+    padding: 7px 10px;
+    font-size: 11px;
+    font-weight: 900;
+    transform: rotate(-2deg);
+}
+
+.collect-intro h1 {
+    font-size: clamp(25px, 4vw, 38px);
+    line-height: 1.12;
+    margin: 18px 0 12px;
+}
+
+.collect-intro h3 {
+    color: #178a42;
+}
+
+.collect-intro p {
+    line-height: 1.7;
+}
+
+.collect-bottomline {
+    padding-top: 14px;
+    border-top: 2px dashed #86b5d0;
+}
+
+.collect-section {
+    margin-top: 28px;
+}
+
+.collect-section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.collect-section-title h2 {
+    flex: 1;
+    margin: 0;
+}
+
+.collect-number {
+    color: #178a42;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.collect-icon {
+    font-size: 27px;
+}
+
+.collect-school-grid,
+.collect-card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.collect-school {
+    padding: 20px;
+    background: white;
+    border: 2px solid #183653;
+    border-radius: 12px;
+    box-shadow: 4px 4px 0 #b9d4e3;
+}
+
+.collect-school-label {
+    display: inline-block;
+    padding: 5px 8px;
+    background: #c8edbd;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.collect-school h3 {
+    font-size: 17px;
+    line-height: 1.4;
+    margin-bottom: 8px;
+}
+
+.collect-school p {
+    margin: 0 0 8px;
+}
+
+.collect-school small {
+    color: #657b89;
+}
+
+.collect-card-grid {
+    margin-top: 25px;
+}
+
+.collect-mini {
+    padding: 22px;
+    border: 2px solid #183653;
+    border-radius: 14px;
+    box-shadow: 4px 4px 0 #b9d4e3;
+}
+
+.collect-skills {
+    background: #d8f1d0;
+}
+
+.collect-hobbies {
+    background: #fff0bd;
+}
+
+.collect-mini h2 {
+    margin: 10px 0;
+}
+
+.collect-mini p {
+    line-height: 1.6;
+}
+
+.collect-stickers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.collect-stickers span {
+    padding: 7px 10px;
+    background: white;
+    border: 1px solid #183653;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.collect-achievements {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 28px;
+    padding: 22px;
+    background: white;
+    border: 2px solid #183653;
+    border-radius: 14px;
+    box-shadow: 4px 4px 0 #b9d4e3;
+}
+
+.collect-achievement-star {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: #ffdf7e;
+    border: 2px solid #183653;
+    font-size: 35px;
+    color: #9c6b00;
+}
+
+.collect-achievements h2 {
+    margin: 6px 0;
+}
+
+.collect-achievements p {
+    margin-bottom: 0;
+    line-height: 1.5;
+}
+
+.collect-seal {
+    margin-left: auto;
+    flex-shrink: 0;
+    padding: 9px;
+    border: 2px dashed #178a42;
+    color: #178a42;
+    font-size: 10px;
+    font-weight: 900;
+    transform: rotate(5deg);
+}
+
+.collect-back {
+    display: block;
+    width: fit-content;
+    margin: 30px auto 0;
+    padding: 12px 22px;
+    color: white;
+    background: #178a42;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.collect-back:hover {
+    background: #116d33;
+    transform: translateY(-3px);
+}
+
+@media (max-width: 700px) {
+    .profile-collectible {
+        margin: 20px 12px;
+        padding: 14px;
+    }
+
+    .collect-main {
+        grid-template-columns: 1fr;
+    }
+
+    .collect-photo {
+        max-width: 240px;
+        margin: auto;
+    }
+
+    .collect-school-grid,
+    .collect-card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .collect-achievements {
+        flex-wrap: wrap;
+    }
+
+    .collect-seal {
+        margin-left: 0;
+    }
+}
+</style>
+
+<div class="profile-collectible">
+
+    <section class="collect-hero">
+        <div class="collect-topline">
+            <span>STUDENT EDITION</span>
+            <span>NO. 001 ★</span>
+        </div>
+
+        <div class="collect-main">
+            <div class="collect-photo">
+                <img src="{{ url_for('static', filename='images/profile.jpg') }}"
+                     alt="My profile photo">
+                <span class="collect-photo-label">THE HUMAN BEHIND THE CODE</span>
+            </div>
+
+            <div class="collect-intro">
+                <span class="collect-badge">✦ GET TO KNOW ME ✦</span>
+                <h1>ATASHA BERNADETTE S. AGUSTIN</h1>
+                <h3>Computer Engineering Student</h3>
+                <p>
+                    Curious by nature, creative in spirit, and always
+                    ready to learn something new.
+                </p>
+            </div>
+        </div>
+
+        <div class="collect-bottomline">
+            <span>LEARN • CREATE • DISCOVER</span>
+            <span>★ PROFILE CARD ★</span>
+        </div>
+    </section>
+
+    <section class="collect-section">
+        <div class="collect-section-title">
+            <span class="collect-number">01</span>
+            <h2>My Education</h2>
+            <span class="collect-icon">🎓</span>
+        </div>
+
+        <div class="collect-school-grid">
+            <article class="collect-school">
+                <span class="collect-school-label">CURRENT</span>
+                <h3>Polytechnic University of the Philippines</h3>
+                <p>BS Computer Engineering</p>
+                <small>2025–Present</small>
+            </article>
+
+            <article class="collect-school">
+                <span class="collect-school-label">COMPLETED</span>
+                <h3>The National Teachers College</h3>
+                <p>Senior High School</p>
+                <small>2023–2025</small>
+            </article>
+        </div>
+    </section>
+
+    <div class="collect-card-grid">
+        <section class="collect-mini collect-skills">
+            <span class="collect-number">02 · BUILD</span>
+            <h2>My Skills</h2>
+            <div class="collect-stickers">
+                <span>Attention to Detail</span>
+                <span>Problem Solving</span>
+                <span>Communication</span>
+                <span>Python Programming</span>
+                <span>Time Management</span>
+                <span>Willingness to Learn</span>
+            </div>
+        </section>
+
+        
+        <section class="collect-mini collect-hobbies">
+            <span class="collect-number">03 · ENJOY</span>
+            <h2>My Hobbies</h2>
+            <div class="collect-stickers">
+                <span>Reading</span>
+                <span>Photography</span>
+                <span>Listening to Music</span>
+                <span>Watching Movies and Series</span>
+                <span>Exploring new things</span>
+                <span>Playing online games</span>
+            </div>
+        </section>
+    </div>
+
+    <section class="collect-achievements">
+        <div class="collect-achievement-star">★</div>
+        <div>
+            <span class="collect-number">04 · MILESTONES</span>
+            <h2>Awards & Achievements</h2>
+            <p>Dean's Lister (1st Semester, 2025)
+            <p>With High Honors (2022–2025)</p>
+            <p>With Honors (2020–2021)</p>
+            <p>Top 1 in TLE-ICT Class (2023)</p>
+            <p>Journalism Division Contestant – Division Schools Press Conference (2023)</p>
+            <p>Best in Journalism (2019–2023)</p>
+            <p>Recognized Responsible Marshall - Junior High Student Council (2023)</p>
+            <p>Certificate of Recognition - Auditor, CIC Club, Office of the Ombudsman (2021-2022)</p>
+            <p>1st Place, Science Investigatory Project (2021)</p>
+        </div>
+        <span class="collect-seal">UNLOCKED!</span>
+    </section>
+
+    <a href="{{ url_for('index') }}" class="collect-back">
+        ← Back to Home
+    </a>
+
+</div>
+{% endblock %}
+
+
